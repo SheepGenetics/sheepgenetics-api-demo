@@ -1,0 +1,127 @@
+<ion-view hide-back-button="true">
+    <ion-nav-title>{{analysis.display_date}} {{analysis.title}}</ion-nav-title>
+	<ion-nav-buttons side="left">
+		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+	</ion-nav-buttons>
+
+	<form ng-submit="searchAnalysis()">
+        <ion-header-bar class="bar bar-subheader search-header">
+            <label class="item-input-wrapper">
+				<i class="icon ion-search placeholder-icon"></i>
+				<input type="text" placeholder="Animal ID" ng-model="query.AnimalId_like">
+			</label>
+            <div class="buttons.right-buttons">
+			<button type="submit" class="button button-calm">Find</button>	
+                            <button type="button" ng-click="toggleShowAdvanced()" class="icon button button-positive" ng-class="{ 'ion-chevron-down': !showAdvanced, 'ion-chevron-up': showAdvanced }"></button>
+
+                </div>			
+        </ion-header-bar>
+
+	    <ion-content class="has-tabs-bottom" has-bouncing="true" has-header="true" padding="true">
+		    <div class="list" ng-show="showAdvanced">		
+                	<label class="item item-input">
+					    <div class="input-label">Sort results by</div>
+					    <select                             
+						    ng-model="query.SortBy" 
+						    ng-options="option.id as option.label for option in options.sorts">
+					    </select>
+				    </label>
+
+					<label class="item item-input">
+					    <div class="input-label">Breed</div>
+					    <select 
+						    ng-model="query.BreedId" 
+						    ng-options="option.id as option.title for option in options.breeds">
+						    <option value="">-Any-</option>
+					    </select>
+				    </label>
+
+				    <label class="item item-input">
+					    <div class="input-label">Year of birth (drop)</div>
+					    <select 
+						    ng-model="query.BirthYear" 
+						    ng-options="option.id as option.label for option in options.years">
+						    <option value="">-Any-</option>
+					    </select>
+				    </label>
+
+				    <label class="item item-input">
+					    <div class="input-label">Stud name</div>
+					    <input type="text" placeholder="Stud name" ng-model="query.StudName_like" />
+				    </label>
+
+				    <label class="item item-input">
+					    <div class="input-label">Sex</div>
+					    <select 
+						    ng-model="query.Sex" 
+						    ng-options="option.id as option.label for option in options.sexes">
+						    <option value="">-Any-</option>
+					    </select>
+				    </label>
+
+                	<label class="item item-input">
+					    <div class="input-label">Wool type</div>
+					    <select 
+						    ng-model="query.GroupType" 
+						    ng-options="option.id as option.label for option in options.groups">
+						    <option value="">-Any-</option>
+					    </select>
+				    </label>
+
+				    <label class="item item-input">
+					    <div class="input-label">Sire/Dam</div>
+					    <select 
+						    ng-model="query.SireStatus" 
+						    ng-options="option.id as option.label for option in options.sires">
+						    <option value="">-Any-</option>
+					    </select>
+				    </label>
+
+                    <div class="item item-divider">Filter by ASBV</div>
+
+                    <label class="item asbv-item-input asbv-item-stacked-label" ng-repeat="ebv in asbvs">
+                        <span class="asbv-input-label">{{ebv.label}} (avg. {{ebv.average}})</span>
+                        <div class="input-pair" data-tap-disabled="true"><!-- remove ionic tap handler otherwise focus is always forced to first input -->
+                            <div class="left">
+                                <input type="tel" placeholder="{{ebv.abbrev}} min" ng-model="query.asbv_min[ebv.abbrev]" />
+                            </div>
+                            <div class="right">
+                                <input type="tel" placeholder="{{ebv.abbrev}} max" ng-model="query.asbv_max[ebv.abbrev]" />
+                            </div>
+                        </div>
+                    </label>				
+			    </div>
+
+		    <div class="list" ng-show="showResults">
+			    <div class="warning card" ng-show="!results">
+                    <div class="item item-text-wrap">
+				    No matching animals found
+                    </div>
+			    </div>
+			    <ion-list ng-show="results">
+				    <ion-item ng-repeat="item in results | limitTo: limit" class="item-icon-right" ui-sref="app.animal({ anid: item.id })">                            
+					    {{item.display_id}}                          
+					    <i class="icon icon-accessory ion-chevron-right"></i>
+				    </ion-item>
+			    </ion-list>
+			
+		    </div>
+		    <ion-infinite-scroll
+				     ng-if="moreDataCanBeLoaded()"
+			    icon="ion-loading-c"
+				     on-infinite="loadMoreData()"
+				    ></ion-infinite-scroll>
+	    </ion-content>
+    </form>
+
+    <!-- pass the analysis id on the links so we always have the current analysis defined -->
+    <div class="tabs tabs-icon-only">
+      <a nav-clear class="tab-item disable-user-behavior active" title="Animal Data" nav-clear href="#/app/analysis/{{analysis.id}}">
+        <i class="icon ion-document-text"></i><span class="tab-title ng-binding" ng-bind-html="title"></span>
+      </a>
+      <a nav-clear nav-transition="none" class="tab-item disable-user-behavior" title="Charts" href="#/app/charts/{{analysis.id}}">
+        <i class="icon ion-stats-bars"></i><span class="tab-title ng-binding" ng-bind-html="title"></span>
+      </a>
+    </div>
+</ion-view>
+

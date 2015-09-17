@@ -1,0 +1,35 @@
+<div class="modal">
+  <ion-header-bar>
+    <h1 class="title">Choose Flock</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeModal()">Cancel</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <div class="list">
+        <div class="warning card" ng-show="!loading && !flocks">
+            <div class="item item-text-wrap">
+			No flocks found. Are you logged in?
+            </div>
+		</div>
+        <label ng-show="flocks" class="item item-input">
+            
+            <input
+                ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" 
+                placeholder="Choose flock by code or name"
+                max-selected-items="1" 
+                items-method="getFlocks(query)"
+                items-clicked-method="onSetFlock(callback)"
+                cancel-button-clicked-method="closeModal()"
+                ng-model="breed_flock_code"
+                item-value-key="breed_flock_code"
+                item-view-value-key="name"
+                />
+
+        </label>
+
+			
+	</div>
+  </ion-content>
+</div>
+

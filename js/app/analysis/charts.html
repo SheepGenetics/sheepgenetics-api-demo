@@ -1,0 +1,120 @@
+<ion-view hide-back-button="true">
+    <ion-nav-title>Genetic Trends</ion-nav-title>
+	<ion-nav-buttons side="left">
+		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+	</ion-nav-buttons>        
+    
+	    <ion-content class="has-tabs-bottom" has-bouncing="false" has-header="true" padding="true">
+
+            <div ng-show="!flocks && !loading" class="item">
+                <h2>No flocks available</h2>
+                <p>Are you logged in?</p>
+            </div>
+
+            <label ng-show="flocks && !loading" class="item item-input">
+            <input
+                ion-autocomplete type="text" readonly="readonly" class="ion-autocomplete" autocomplete="off" 
+                placeholder="Type in a flock code or name"
+                max-selected-items="1" 
+                items-method="getFlockPickerFlocks(query)"
+                items-clicked-method="onFlockPickerSetFlock(callback)"
+                ng-model="breed_flock_code"
+                item-value-key="breed_flock_code"
+                item-view-value-key="name"
+                />
+            </label>
+
+            <div ng-show="data && !loading">
+                   
+                <div class="item item-input">
+                    <div class="row">
+                        
+                        <div class="col">
+                            <select 
+                        ng-change="onDisplayChart1()"
+						ng-model="chart1.break_down" 
+						ng-options="item as item for item in data.break_downs">
+			        </select>
+                        </div>
+
+                        <div class="col">
+                            From <select 
+                        ng-change="onYearChange(drop_year)"
+						ng-model="drop_year" 
+						ng-options="option as option for option in data_drop_years">
+			        </select>
+                        </div>
+                    </div>                    
+                </div>
+                                      
+               <label class="item item-input">                    
+                    <select 
+                        ng-change="onDisplayChart1()"
+						ng-model="chart1.trait" 
+						ng-options="ebv.id as (ebv.abbrev + ' - ' + ebv.label) for ebv in asbvs">
+                            <option value="">-- Choose Trait --</option>
+			        </select>
+                </label>  
+
+                <div ng-show="chart1_show" class="chart-container">
+                    <canvas class="chart chart-line"
+                        chart-options="line_chart_options"
+                        chart-data="chart1.data.points" chart-labels="chart1.data.labels" 
+                        chart-legend="true" chart-series="chart1.data.series"></canvas> 
+               </div>
+
+
+                  <div ng-show="compare_traits" >                 
+                <div ng-show="chart2.show" class="chart-container">
+                <canvas class="chart chart-line"
+                chart-options="line_chart_options"
+                chart-data="chart2.data.points" chart-labels="chart2.data.labels" 
+                chart-legend="true" chart-series="chart2.data.series"></canvas> 
+
+            </div>
+                
+                <div class="item item-input">
+                    <div class="row">                        
+                        <div class="col">
+                            <select 
+                        ng-change="onDisplayChart2()"
+						ng-model="chart2.break_down" 
+						ng-options="item as item for item in data.break_downs">
+			        </select>
+                        </div>
+                        <div class="col">
+                           From {{drop_year}}
+                        </div>
+                    </div>                    
+                </div>
+
+                <label class="item item-input">                    
+                    <select 
+                        ng-change="onDisplayChart2()"
+						ng-model="chart2.trait" 
+						ng-options="ebv.id as (ebv.abbrev + ' - ' + ebv.label) for ebv in asbvs">
+                            <option value="">-- Choose Trait --</option>
+			        </select>
+                </label>  
+                                                                             
+            
+            </div>   
+                                                         
+                 <ion-toggle ng-model="compare_traits" toggle-class="toggle-calm">Compare Traits</ion-toggle>
+          </div>
+
+            <div class="footer-space"></div>
+	    </ion-content>
+
+
+    <!-- pass the analysis id on the links so we always have the current analysis defined -->
+    <div class="tabs tabs-icon-only">
+      <a nav-clear nav-transition="none" class="tab-item disable-user-behavior" title="Animal Data" nav-clear href="#/app/analysis/{{analysis.id}}">
+        <i class="icon ion-document-text"></i><span class="tab-title ng-binding" ng-bind-html="title"></span>
+      </a>
+      <a nav-clear class="tab-item disable-user-behavior active" title="Charts" href="#/app/charts/{{analysis.id}}">
+        <i class="icon ion-stats-bars"></i><span class="tab-title ng-binding" ng-bind-html="title"></span>
+      </a>
+    </div>
+</ion-view>
+

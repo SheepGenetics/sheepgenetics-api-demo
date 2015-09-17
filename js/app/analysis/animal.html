@@ -1,0 +1,91 @@
+<ion-view title="Sheep Genetics" hide-back-button="false">
+	<ion-content has-bouncing="false">
+		<div class="list card">
+			<div class="item row">
+				<div class="col col-25"> Id </div>
+				<div class="col"> {{animal.display_id}} </div>
+			</div>
+            <div class="item row">
+				<div class="col col-25"> Sex </div>
+				<div class="col"> {{animal.sex_name}} </div>
+			</div>
+			<div class="item row">
+				<div class="col col-25"> Drop </div>
+				<div class="col"> {{animal.drop}} </div>
+			</div>
+			<div class="item row">
+				<div class="col col-25"> Stud </div>
+				<div class="col"> {{animal.stud}} </div>
+			</div>
+			<div class="item row">
+				<div class="col col-25"> Sire </div>
+				<div class="col"> {{animal.sire_name}} </div>
+			</div>
+           <div ng-if="animal.has_pedigree" class="item row">
+				<div class="col col-25">  </div>
+				<div class="col text-right"> <a ui-sref="app.pedigree({ anid: animal.id })" class="button-small button button-calm icon icon-right ion-network">Pedigree</a>  </div>
+			</div>
+			<div class="item row">
+				<div class="col col-25"> Dam </div>
+				<div class="col"> {{animal.dam_name}} </div>
+			</div>
+ 
+			<div class="item row">
+				<div class="col col-50"> Progeny/Flocks </div>
+				<div class="col"> 
+					{{animal.numprogeny}}/{{animal.numflocks}}
+				</div>
+			</div>
+
+		</div>
+        <div class="list card">
+		    <div class="bar bar-positive ">
+			    <h2>{{analysis.title}} ASBVs {{analysis.display_date}}</h2>
+		    </div>
+            <div class="item">
+            <div class="row row-center">
+                <div class="col col-50">Trait <img ng-src='img/logo-small.gif'></div>
+                <div class="col">ASBV</div>
+                <div class="col">Avg.</div>
+                <div class="col"></div>
+            </div>
+            </div>
+            <div class="item" ng-repeat="item in animal.breedingvalues">
+                <div class="row row-center" ng-click="showDetails=!showDetails">
+					<div class="col abbrev col-50" ng-class="{'percentile-leader': item.percentile >=1 && item.percentile <= 4}"><span class="display-{{item.display_type}}">{{item.abbrev}}</span></div>
+                    <div class="col asbv text-center">
+                        <div ng-class="{'trait-leader': item.is_trait_leader}">
+                            <span class="display-{{item.display_type}}"></span>{{item.value}}<br />
+                            <span>{{item.accuracy}}</span>
+                        </div>
+                    </div>
+                    <div class="col average">{{item.average}}</div>
+                    <div class="col icon-accessory"><i class="icon ion-chevron-down"></i></div>
+                </div>
+
+                <div class="item item-divider label" ng-show="showDetails">
+                    <div ng-if="item.is_trait_leader" class="trait-leader">
+                        Trait leader
+                    </div>
+                    {{item.label}} ({{item.units}})<br />
+                    Breed average {{item.average}}{{item.units}}<br />                    
+                    <div class="percentile" ng-switch="item.percentile">
+                        <span ng-switch-when="1">Animal ranks in top 10% for {{item.abbrev}}</span>
+                        <span ng-switch-when="2">Animal ranks in top 20% for {{item.abbrev}}</span>
+                        <span ng-switch-when="3">Animal ranks in top 30% for {{item.abbrev}}</span>
+                        <span ng-switch-when="4">Animal ranks in top 40% for {{item.abbrev}}</span>
+                    </div>
+                </div>
+                
+            </div>
+       
+        </div>
+	</ion-content>
+</ion-view>
+<script id="asbv-popover.html" type="text/ng-template">
+    <ion-popover-view>
+    <ion-content>
+        {{asbv.label}} HELLO
+    </ion-content>
+    </ion-popover-view>
+</script>

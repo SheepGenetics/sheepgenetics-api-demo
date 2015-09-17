@@ -1,0 +1,18 @@
+<ion-view title="Analyses" hide-back-button="true">
+	<ion-nav-buttons side="left">
+		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+	</ion-nav-buttons>
+	<ion-content class="has-header">
+		<ion-list>
+			<div class="card" ng-repeat="item in analyses" ui-sref="app.analysis({ analysis: item.id })">
+				<div class="click-card item button button-clear button-block" >
+					{{item.title}}                    
+                </div>
+                <div class="item item-divider">
+					 {{item.display_date}}
+				</div>
+			</div>
+		</ion-list>
+	</ion-content>
+</ion-view>
+

@@ -1,0 +1,16 @@
+<ion-view title="Choose Dataset" hide-back-button="true">
+	<ion-nav-buttons side="left">
+		<button menu-toggle="left" class="button button-icon icon ion-navicon"></button>
+	</ion-nav-buttons>
+
+	<ion-content class="has-header">
+		<ion-list>
+			<div class="card" ng-repeat="item in datasets" ui-sref="app.analysis_list({ dataset: item.id })">
+                <div class="click-card  item button button-clear button-block">
+				{{item.title}}
+                </div>
+			</div>
+		</ion-list>
+	</ion-content>
+</ion-view>
+

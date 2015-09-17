@@ -1,0 +1,58 @@
+﻿<ion-view title="{{pedigree.display_id}}" hide-back-button="false">
+	<ion-content has-bouncing="false" class="pedigree">
+		<div class="list">
+			<div ng-if="pedigree.sire.sire.id"  class="row">
+                <div class="col col-50 col-bottom text-right"><i class="ion-android-arrow-up-right"></i></div>			
+				<div class="col">                   
+                    <a ui-sref="app.animal({ anid: pedigree.sire.sire.id })" class="button button-calm">{{pedigree.sire.sire.display_id}}</a> 
+				</div>
+			</div>
+            <div class="row row-center">
+				<div class="col col-33 text-right"> <h4>Sire</h4> </div>
+				<div class="col"> 
+                    <a ui-sref="app.animal({ anid: pedigree.sire.id })" ng-if="pedigree.sire.id" class="button button-calm">{{pedigree.sire.display_id}}</a> 
+                    <h4 ng-if="!pedigree.sire.id">Unknown</h4>
+				</div>
+			</div>
+            <div ng-if="pedigree.sire.dam.id"  class="row">	
+                <div class="col col-50 text-right"><i class="ion-android-arrow-down-right"></i></div>			
+				<div class="col">
+                    <a ui-sref="app.animal({ anid: pedigree.sire.dam.id })" class="button button-calm"> {{pedigree.sire.dam.display_id}}</a> 
+				</div>
+			</div>
+
+            <div class="row">
+                <div class="col col-20 text-right"><i class="ion-android-arrow-up-right"></i></div>							
+			</div>
+
+            <div class="row animal">
+				<div class="col"><a ng-click="goBack()" class="button button-stable"> {{pedigree.display_id}} </a> </div>
+			</div>
+            <div class="row">
+                <div class="col col-20 text-right"><i class="ion-android-arrow-down-right"></i></div>							
+			</div>
+
+			<div ng-if="pedigree.dam.sire.id" class="row row-bottom">
+                <div class="col col-50 col-bottom text-right"><i class="ion-android-arrow-up-right"></i></div>			
+				<div class="col">
+                    <a ui-sref="app.animal({ anid: pedigree.dam.sire.id })" class="button button-calm"> {{pedigree.dam.sire.display_id}}</a>  
+
+				</div>
+			</div>
+            <div class="row row-center">
+				<div class="col col-33 text-right"><h4>Dam</h4> </div>
+				<div class="col"> 
+                    <a ui-sref="app.animal({ anid: pedigree.dam.id })" ng-if="pedigree.dam.id" class="button button-calm">{{pedigree.dam.display_id}}</a>  
+                    <h4 ng-if="!pedigree.dam.id">Unknown</h4>
+				</div>
+			</div>
+            <div ng-if="pedigree.dam.dam.id" class="row">
+                <div class="col col-50 text-right"><i   class="ion-android-arrow-down-right"></i></div>			
+				<div class="col">
+                    <a ui-sref="app.animal({ anid: pedigree.dam.dam.id })" class="button button-calm">{{pedigree.dam.dam.display_id}}</a>  
+				</div>
+			</div>
+
+        </div>
+    </ion-content>
+</ion-view>
